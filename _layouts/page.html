@@ -2,16 +2,4 @@
 layout: default
 ---
 
-{% if page.width == 'expand' %}
-    {{ content }}
-{% else %}
-<div class="uk-section">
-    <div class="uk-container{% if page.width %} uk-container-{{page.width}}{% endif %}">
-
-        <article class="uk-article">
-            {{ content }}
-        </article>
-
-    </div>
-</div>
-{% endif %}
+{{ content }}

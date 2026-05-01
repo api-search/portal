@@ -3,85 +3,102 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ site.name }} - {{ page.title }}</title>
+    <title>{% if page.title %}{{ page.title }} | {{ site.name }}{% else %}{{ site.name }} - {{ site.description }}{% endif %}</title>
+    <meta name="description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="keywords" content="{% if page.tags %}{{ page.tags | join: ', ' }}, {% endif %}{{ site.keywords | join: ', ' }}">
+    <link rel="canonical" href="{{ page.url | absolute_url }}">
+    <link rel="api-catalog" href="https://apis.apis.io/.well-known/api-catalog" type="application/linkset+json">
+
+    {% if page.layout == "post" and page.image %}{% assign _og_image = page.image | absolute_url %}{% else %}{% assign _og_image = site.image %}{% endif %}
+    {% if page.layout == "post" %}{% assign _og_type = "article" %}{% else %}{% assign _og_type = "website" %}{% endif %}
+
+    <meta property="og:title" content="{% if page.title %}{{ page.title }} | {{ site.name }}{% else %}{{ site.name }}{% endif %}">
+    <meta property="og:description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 200 }}{% else %}{{ site.description }}{% endif %}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta property="og:site_name" content="{{ site.name }}">
+    <meta property="og:type" content="{{ _og_type }}">
+    <meta property="og:image" content="{{ _og_image }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{{ _og_image }}">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }} | {{ site.name }}{% else %}{{ site.name }}{% endif %}">
+    <meta name="twitter:description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 200 }}{% else %}{{ site.description }}{% endif %}">
+
     <link href="{{ site.url }}/assets/bootstrap.min.css" rel="stylesheet">
     <link href="{{ site.url }}/assets/sticky-footer.css" rel="stylesheet">
+    <script src="{{ site.url }}/assets/bootstrap.bundle.min.js"></script>
+    <script src="{{ site.url }}/assets/js-yaml.min.js"></script>
+
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #333; }
+      .navbar { padding: 0.75rem 0; }
+      .navbar-brand img { display: block; height: 28px; width: auto; }
+      .nav-link { font-size: 0.95rem; padding: 0.5rem 1rem !important; }
+      .container.my-5 { max-width: 960px; }
+      .footer { background-color: #f8f9fa; border-top: 1px solid #e9ecef; }
+      .footer a { color: #555; text-decoration: none; font-size: 0.9rem; }
+      .footer a:hover { color: #000; text-decoration: underline; }
+      a { color: #0d6efd; }
+      a:hover { color: #0a58ca; }
+      .feed-card { border: 1px solid #dee2e6; border-radius: 0.375rem; padding: 1.25rem; margin-bottom: 1rem; }
+      .feed-card h5 { margin-bottom: 0.5rem; }
+      .feed-card .badge { font-size: 0.75rem; }
+      code { background: #f8f9fa; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; color: #d63384; }
+      pre code { background: none; padding: 0; color: inherit; }
+      pre { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 0.375rem; padding: 1rem; overflow-x: auto; }
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="#">{{ site.name }}</a>
+        <a class="navbar-brand" href="{{ site.url }}/" aria-label="{{ site.name }} home"><img src="{{ site.url }}/assets/branding/apisio-wordmark-white.png" alt="{{ site.name }}"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{{ site.url }}/">Home</a>
+              <a class="nav-link" href="{{ site.url }}/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ site.url }}/feeds/">Feeds</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ site.url }}/about/">About</a>
-            </li>                                      
-            <li class="nav-item">
-              <a class="nav-link" href="{{ site.url }}/authentication/">Auth</a>
-            </li>      
-            <li class="nav-item">
-              <a class="nav-link" href="{{ site.url }}/documentation/">Docs</a>
-            </li> 
-            <li class="nav-item">
-              <a class="nav-link" href="{{ site.url }}/plans/">Plans</a>
-            </li>           
-            <li class="nav-item">
-              <a class="nav-link" href="{{ site.url }}/sdks/">SDKs</a>
-            </li>                           
-            <li class="nav-item">
-              <a class="nav-link" href="{{ site.url }}/blog/">Blog</a>
-            </li>        
-            <li class="nav-item">
-              <a class="nav-link" href="{{ site.url }}/videos/">Videos</a>
-            </li>   
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ site.url }}/support/">Support</a>
-            </li>                                                                      
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ site.url }}/blog/">Blog</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="https://apis.io/">apis.io &rarr;</a>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
-    <!--
-    <div class="alert alert-danger" role="alert" style="text-align: center;">
-      This Search is in an Alpha Stage -- <a href="https://github.com/api-search/explore/issues">Submit An Issue</a>!
-    </div>
-    -->
-    <div class="container my-5">
-      {{ content }}
-    </div>
 
-    <script src="{{ site.url }}/assets/bootstrap.bundle.min.js"></script>
-    <script src="{{ site.url }}/assets/js-yaml.min.js"></script>
+    <main class="container my-5" role="main">
+      {{ content }}
+    </main>
 
     <footer class="footer">
       <div class="container">
-        <table cellspacing="5" cellpadding="5" align="center">
-          <tr>
-            <td><a href="https://apis.io" style="color: #000;">APIs.io</a></td>
-            <td>|</td>
-            <td><a href="https://apisjson.org" style="color: #000;">APIs.json</a></td>
-            <td>|</td>
-            <td><a href="http://apicommons.org" style="color: #000;">API Commons</a></td>
-            <td>|</td>
-            <td><a href="/change-log" style="color: #000;">Change Log</a></td>
-            <td>|</td>
-            <td><a href="/road-map" style="color: #000;">Road Map</a></td>
-            <td>|</td>
-            <td><a href="/terms-of-service" style="color: #000;">Terms of Services</a></td>    
-            <td>|</td>
-            <td><a href="/privacy-policy" style="color: #000;">Privacy Policy</a></td>  
-            <td>|</td>
-            <td><a href="/sitemap.xml" style="color: #000;">Sitemap.xml</a></td>                                    
-          </tr>
-        </table>
+        <div class="d-flex justify-content-center gap-4 align-items-center" style="height: 60px;">
+          <a href="https://apis.io">APIs.io</a>
+          <a href="http://apisjson.org">APIs.json</a>
+          <a href="http://apicommons.org">API Commons</a>
+          <a href="{{ site.url }}/change-log/">Change Log</a>
+          <a href="{{ site.url }}/road-map/">Road Map</a>
+          <a href="{{ site.url }}/terms-of-service/">Terms</a>
+          <a href="{{ site.url }}/privacy-policy/">Privacy</a>
+          <a href="https://github.com/api-search">GitHub</a>
+        </div>
       </div>
     </footer>
-
   </body>
 </html>

@@ -1,22 +1,20 @@
 name: Developer APIs.io
-description: The first API search engine.
+description: Static JSON feeds for the APIs.io network — providers, APIs, capabilities, tags, schemas, and more.
 image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-url: https://developer.apis.io/
+url: https://developer.apis.io
 
 keywords:
-
   - APIs
   - Search
   - Discovery
+  - JSON Feeds
+  - API Catalog
 
 permalink: /:categories/:year/:month/:day/:title/
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
 
-categories_path : /categories.html
-tags_path : /tags.html
-
 github_org: api-search
-github_repo: explore
+github_repo: developer-portal
 
-paginate:           25
-paginate_path:      "/blog/:num/"
+paginate: 25
+paginate_path: "/blog/:num/"

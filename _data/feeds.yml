@@ -1,0 +1,277 @@
+- slug: providers
+  name: Providers
+  description: Organizations and companies that publish APIs indexed by APIs.io. Each provider record includes name, description, tags, and a count of their associated APIs and capabilities.
+  url: https://providers.apis.io/
+  feed_url: https://providers.apis.io/search-index.json
+  catalog_url: https://providers.apis.io/.well-known/api-catalog
+  tags:
+    - Providers
+    - Discovery
+  fields:
+    - name: i
+      type: integer
+      description: Sequential index position
+    - name: type
+      type: string
+      description: Always "provider"
+    - name: n
+      type: string
+      description: Provider name
+    - name: d
+      type: string
+      description: Provider description (truncated to 300 chars)
+    - name: t
+      type: array
+      description: Tags
+    - name: u
+      type: string
+      description: Provider page URL on providers.apis.io
+    - name: ac
+      type: integer
+      description: Number of APIs indexed for this provider
+    - name: cc
+      type: integer
+      description: Number of capabilities published by this provider
+
+- slug: apis
+  name: APIs
+  description: Individual API records indexed across all providers. Each API includes its name, description, tags, and a link to its detail page.
+  url: https://apis.apis.io/
+  feed_url: https://apis.apis.io/search-index.json
+  catalog_url: https://apis.apis.io/.well-known/api-catalog
+  tags:
+    - APIs
+    - Discovery
+  fields:
+    - name: i
+      type: integer
+      description: Sequential index position
+    - name: type
+      type: string
+      description: Always "api"
+    - name: n
+      type: string
+      description: API name
+    - name: d
+      type: string
+      description: API description (truncated to 300 chars)
+    - name: t
+      type: array
+      description: Tags
+    - name: u
+      type: string
+      description: API detail page URL on apis.apis.io
+    - name: p
+      type: string
+      description: Provider slug
+
+- slug: capabilities
+  name: Capabilities
+  description: Naftiko capability specs indexed across all providers. Each capability describes a business workflow that can be deployed as a REST API or MCP server.
+  url: https://capabilities.apis.io/
+  feed_url: https://capabilities.apis.io/search-index.json
+  catalog_url: https://capabilities.apis.io/.well-known/api-catalog
+  tags:
+    - Capabilities
+    - MCP
+    - Naftiko
+  fields:
+    - name: i
+      type: integer
+      description: Sequential index position
+    - name: type
+      type: string
+      description: Always "capability"
+    - name: n
+      type: string
+      description: Capability name
+    - name: d
+      type: string
+      description: Capability description (truncated to 300 chars)
+    - name: t
+      type: array
+      description: Tags
+    - name: u
+      type: string
+      description: Capability detail page URL on capabilities.apis.io
+
+- slug: tags
+  name: Tags
+  description: All tags used across APIs.io providers and APIs, with counts of how many resources are associated with each tag.
+  url: https://tags.apis.io/
+  feed_url: https://tags.apis.io/search-index.json
+  catalog_url: https://tags.apis.io/.well-known/api-catalog
+  tags:
+    - Tags
+    - Classification
+    - Discovery
+  fields:
+    - name: i
+      type: integer
+      description: Sequential index position
+    - name: type
+      type: string
+      description: Always "tag"
+    - name: n
+      type: string
+      description: Tag name
+    - name: u
+      type: string
+      description: Tag page URL on tags.apis.io
+    - name: ac
+      type: integer
+      description: Number of APIs with this tag
+    - name: pc
+      type: integer
+      description: Number of providers with this tag
+
+- slug: schemas
+  name: Schemas
+  description: JSON Schema definitions extracted from APIs indexed by APIs.io. Useful for discovering reusable data model definitions across the API ecosystem.
+  url: https://schemas.apis.io/
+  feed_url: https://schemas.apis.io/search-index.json
+  catalog_url: https://schemas.apis.io/.well-known/api-catalog
+  tags:
+    - Schemas
+    - JSON Schema
+    - Data Models
+  fields:
+    - name: i
+      type: integer
+      description: Sequential index position
+    - name: type
+      type: string
+      description: Always "schema"
+    - name: n
+      type: string
+      description: Schema name
+    - name: d
+      type: string
+      description: Schema description
+    - name: t
+      type: array
+      description: Tags
+    - name: u
+      type: string
+      description: Schema detail page URL on schemas.apis.io
+
+- slug: asyncapi
+  name: AsyncAPI
+  description: AsyncAPI specifications indexed across providers — event-driven APIs, message channels, and async operations discovered by APIs.io.
+  url: https://asyncapi.apis.io/
+  feed_url: https://asyncapi.apis.io/search-index.json
+  catalog_url: https://asyncapi.apis.io/.well-known/api-catalog
+  tags:
+    - AsyncAPI
+    - Events
+    - Messaging
+  fields:
+    - name: i
+      type: integer
+      description: Sequential index position
+    - name: type
+      type: string
+      description: Always "asyncapi"
+    - name: n
+      type: string
+      description: AsyncAPI spec name
+    - name: d
+      type: string
+      description: AsyncAPI description
+    - name: t
+      type: array
+      description: Tags
+    - name: u
+      type: string
+      description: AsyncAPI detail page URL on asyncapi.apis.io
+
+- slug: json-ld
+  name: JSON-LD
+  description: JSON-LD context documents and linked data definitions published by API providers indexed by APIs.io.
+  url: https://json-ld.apis.io/
+  feed_url: https://json-ld.apis.io/search-index.json
+  catalog_url: https://json-ld.apis.io/.well-known/api-catalog
+  tags:
+    - JSON-LD
+    - Linked Data
+    - Semantic Web
+  fields:
+    - name: i
+      type: integer
+      description: Sequential index position
+    - name: type
+      type: string
+      description: Always "json-ld"
+    - name: n
+      type: string
+      description: JSON-LD context name
+    - name: d
+      type: string
+      description: JSON-LD description
+    - name: t
+      type: array
+      description: Tags
+    - name: u
+      type: string
+      description: JSON-LD detail page URL on json-ld.apis.io
+
+- slug: rules
+  name: Rules
+  description: Spectral ruleset files collected from API providers — linting rules for OpenAPI and AsyncAPI spec quality enforcement.
+  url: https://rules.apis.io/
+  feed_url: https://rules.apis.io/search-index.json
+  catalog_url: https://rules.apis.io/.well-known/api-catalog
+  tags:
+    - Rules
+    - Spectral
+    - Governance
+    - Linting
+  fields:
+    - name: i
+      type: integer
+      description: Sequential index position
+    - name: type
+      type: string
+      description: Always "rule"
+    - name: n
+      type: string
+      description: Ruleset name
+    - name: d
+      type: string
+      description: Ruleset description
+    - name: t
+      type: array
+      description: Tags
+    - name: u
+      type: string
+      description: Ruleset detail page URL on rules.apis.io
+
+- slug: vocabularies
+  name: Vocabularies
+  description: Controlled vocabularies and taxonomy definitions used by API providers — shared term lists for API classification and semantic consistency.
+  url: https://vocabularies.apis.io/
+  feed_url: https://vocabularies.apis.io/search-index.json
+  catalog_url: https://vocabularies.apis.io/.well-known/api-catalog
+  tags:
+    - Vocabularies
+    - Taxonomy
+    - Classification
+  fields:
+    - name: i
+      type: integer
+      description: Sequential index position
+    - name: type
+      type: string
+      description: Always "vocabulary"
+    - name: n
+      type: string
+      description: Vocabulary name
+    - name: d
+      type: string
+      description: Vocabulary description
+    - name: t
+      type: array
+      description: Tags
+    - name: u
+      type: string
+      description: Vocabulary detail page URL on vocabularies.apis.io

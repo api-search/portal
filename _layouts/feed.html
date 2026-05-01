@@ -1,0 +1,118 @@
+---
+layout: default
+---
+
+{% assign feed = site.data.feeds | where: "slug", page.feed_slug | first %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ site.url }}/">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ site.url }}/feeds/">Feeds</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ feed.name }}</li>
+  </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-start mb-4">
+  <div>
+    <h1>{{ feed.name }} Feed</h1>
+    <p class="lead text-muted">{{ feed.description }}</p>
+    {% for tag in feed.tags %}<span class="badge bg-secondary me-1">{{ tag }}</span>{% endfor %}
+  </div>
+  <div class="text-end ms-4 flex-shrink-0">
+    <a href="{{ feed.feed_url }}" class="btn btn-primary mb-2 d-block" target="_blank" rel="noopener">JSON Feed &rarr;</a>
+    <a href="{{ feed.url }}" class="btn btn-outline-secondary d-block" target="_blank" rel="noopener">Browse {{ feed.name }}</a>
+  </div>
+</div>
+
+<hr>
+
+## Feed Endpoint
+
+<div class="p-3 bg-light rounded mb-4">
+  <strong>GET</strong> <code>{{ feed.feed_url }}</code>
+</div>
+
+No authentication required. Returns a JSON array. CORS headers are set on all feeds.
+
+{% if feed.catalog_url %}
+**API Catalog:** <a href="{{ feed.catalog_url }}" target="_blank" rel="noopener"><code>{{ feed.catalog_url }}</code></a> (RFC 9727)
+{% endif %}
+
+## Response Schema
+
+Each item in the array has these fields:
+
+| Field | Type | Description |
+|---|---|---|
+{% for field in feed.fields %}| `{{ field.name }}` | {{ field.type }} | {{ field.description }} |
+{% endfor %}
+
+## Example Request
+
+```bash
+curl -s {{ feed.feed_url }} | head -c 500
+```
+
+## Example Response
+
+```json
+[
+  {
+    "i": 0,
+    "type": "{{ feed.slug | remove: 's' }}",
+    "n": "Example {{ feed.name | remove: 's' }} Name",
+    "d": "A short description of this resource...",
+    "t": ["Tag1", "Tag2"],
+    "u": "{{ feed.url }}example-slug/"
+  },
+  ...
+]
+```
+
+## Usage
+
+### JavaScript / Browser
+
+```javascript
+const response = await fetch('{{ feed.feed_url }}');
+const items = await response.json();
+
+items.forEach(item => {
+  console.log(item.n, item.u);
+});
+```
+
+### MiniSearch Integration
+
+```javascript
+import MiniSearch from 'minisearch';
+
+const response = await fetch('{{ feed.feed_url }}');
+const docs = await response.json();
+
+const index = new MiniSearch({
+  idField: 'i',
+  fields: ['n', 'd'],
+  storeFields: ['n', 'd', 'u', 't']
+});
+
+index.addAll(docs);
+
+const results = index.search('your query');
+```
+
+### Python
+
+```python
+import requests
+
+response = requests.get('{{ feed.feed_url }}')
+items = response.json()
+
+for item in items:
+    print(item['n'], item['u'])
+```
+
+---
+
+**Browse the full {{ feed.name }} catalog at [{{ feed.url }}]({{ feed.url }}).**

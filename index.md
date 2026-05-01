@@ -1,54 +1,48 @@
 ---
 layout: page
-title: Home
-width: expand
-hero:
-    subtitle: Search for APIs using the Internet's first API search engine API.
+title: Developer APIs.io
+description: Static JSON feeds and developer resources for the APIs.io network — providers, APIs, capabilities, tags, schemas, and more.
 ---
-<p>This is the developer portal for the <a href="https://apis.io">APIs.io search engine</a>, providing programmatic access to the APIs we have indexed, but also providing an example of how you can deliver your own API portal, publish an APIs.json, and make your APIs more easily discovered.
-<div class="container">
-    <div class="row">
 
-        <div class="col-sm-3">
-            <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Getting Started</h5>
-                <p class="card-text">Learn what you need to get started using the APIs.io API, integrating the API search engine into your applications.</p>
-                <a href="/getting-started" class="btn btn-primary">Go</a>
-            </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-3">
-            <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Documentation</h5>
-                <p class="card-text">Visit the documentation for the APIs.ioi API to learn about how you can search for APIs, properties, and maintainers.</p>
-                <a href="/documentation" class="btn btn-primary">Go</a>
-            </div>
-            </div>
-        </div>
+<div class="text-center mb-5">
+  <h1 class="display-5 fw-bold">APIs.io Developer Portal</h1>
+  <p class="lead text-muted">Static JSON feeds for every resource type indexed by the APIs.io network. No authentication. No rate limits. Just data.</p>
+  <a href="/feeds/" class="btn btn-primary btn-lg me-2">Browse Feeds</a>
+  <a href="https://apis.io" class="btn btn-outline-secondary btn-lg">apis.io &rarr;</a>
+</div>
 
-        <div class="col-sm-3">
-            <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Plans</h5>
-                <p class="card-text">Find which of the two access plans will support how you will be using the APIs.io API in your application or integration.</p>
-                <a href="/plans" class="btn btn-primary">Go</a>
-            </div>
-            </div>
-        </div> 
+---
 
-        <div class="col-sm-3">
-            <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">SDKs</h5>
-                <p class="card-text">Find the programming language SDK that will help you integrate with the APIs.io API faster in the language you speak today.</p>
-                <a href="/sdks" class="btn btn-primary">Go</a>
-            </div>
-            </div>
-        </div>     
+## Available Feeds
 
+{% for feed in site.data.feeds %}
+<div class="feed-card">
+  <div class="d-flex justify-content-between align-items-start">
+    <div>
+      <h5 class="mb-1"><a href="{{ site.url }}/feeds/{{ feed.slug }}/">{{ feed.name }}</a></h5>
+      <p class="text-muted mb-2">{{ feed.description | truncate: 140 }}</p>
+      <div>{% for tag in feed.tags %}<span class="badge bg-secondary me-1">{{ tag }}</span>{% endfor %}</div>
     </div>
-</div><br>
-<p>This <a href="https://github.com/api-search/developer-portal">entire portal runs 100% on GitHub</a> and can easily be forked and used for your own API portal, providing a <a href="/apis.json">usable example of APIs.json</a>, but also how the open source discovery format can be used to make your API discovery and onboarding easier.</p>
+    <div class="ms-3 flex-shrink-0">
+      <a href="{{ feed.feed_url }}" class="btn btn-sm btn-outline-primary me-1" target="_blank" rel="noopener">JSON</a>
+      <a href="{{ site.url }}/feeds/{{ feed.slug }}/" class="btn btn-sm btn-outline-dark">Docs</a>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+---
+
+## About
+
+The APIs.io network indexes thousands of APIs, providers, capabilities, and related resources across a set of specialized subdomains. Each subdomain publishes a `search-index.json` — a compact JSON array optimized for client-side search with [MiniSearch](https://lucaong.github.io/minisearch/).
+
+This developer portal documents each feed as an API, describes the response schema, and provides code examples for consuming the feeds in JavaScript, Python, and other languages.
+
+All feeds are:
+- **Public** — no API key or registration required
+- **Static** — served directly from GitHub Pages via Cloudflare
+- **CORS-enabled** — consumable directly from the browser
+- **RFC 9727 compatible** — each subdomain publishes `/.well-known/api-catalog`
+
+The portal itself is open source at [github.com/api-search/developer-portal](https://github.com/api-search/developer-portal).

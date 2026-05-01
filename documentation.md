@@ -1,83 +1,95 @@
 ---
 layout: page
-title: APIs.io APIs
+title: Documentation
+description: Documentation for the APIs.io JSON feeds — static data feeds for providers, APIs, capabilities, tags, schemas, and more.
 ---
-# {{ page.title }}
-The APIs.io web site is powered by APIs, so it makes sense to publish the APIs for others to use. The one you are probably interested in is the APIs.io Search API, as the others are designed to operate the search engine. But, you never know, so we made sure and publish all of them here for you to explore. 
 
-{% assign apisjson = site.data.apisjson %}
-<hr>
-{% for api in apisjson.apis %}
+# Documentation
 
-## {{ api.name }}
-{{ api.description }}
+The APIs.io developer portal provides static JSON feeds for every resource type indexed by the APIs.io network. This page is the starting point for integrating any of the nine feeds into your application.
 
-- humanURL: [{{ api.humanURL }}]({{ api.humanURL }})
-- baseURL: [{{ api.baseURL }}]({{ api.baseURL }})
+## Available Feeds
 
-## Tags
-{% for tag in api.tags %}
-- {{ tag }}{% endfor %}
+{% for feed in site.data.feeds %}
+### [{{ feed.name }}]({{ site.url }}/feeds/{{ feed.slug }}/)
 
-{% for property in api.properties %}
-    {% if property.type == 'OpenAPI' %}
+{{ feed.description }}
 
-        {% assign file = property.url | replace: '_data/','' | replace: '.yml','' %}
-        {% for data in site.data %}
-            {% if file == data[0] %}
-                {% assign openapi = data[1] %}
-            {% endif %}
-        {% endfor %}
-
-    {% endif %}
-{% endfor %}
-
-## Operations
-{% for path in openapi.paths %}{% for method in path[1] %}
-<strong>{{ method[1].summary }}</strong> <i>({{ method[0] | upcase }}) [{{ path[0] }}]({{ api.baseURL }}{{ path[0] }})</i> - {{ method[1].description }}
-
-{% if method[1].parameters %}
-**Parameters**
-{% for property in method[1].parameters %}
-- {{ property.name }}{% endfor %}
-{% endif %}
-
-{% if method[1].requestBody.content['application/json'].example %}
-**Example Request**
-<textarea id="{{ path[0] }}/{{ method[0] }}-request" style="margin: 10px; padding: 5px; height: 250px; overflow: auto; color:#000; border: 1px solid #000; width: 100%;">
-{{ method[1].requestBody.content['application/json'].example | jsonify }}
-</textarea>
-<script>
-    var example = JSON.parse(document.getElementById("{{ path[0] }}/{{ method[0] }}-request").innerHTML);
-    document.getElementById("{{ path[0] }}/{{ method[0] }}-request").innerHTML = JSON.stringify(example, null, 2);
-</script>
-{% endif %}
-
-{% if method[1].responses['200'].content['application/json'].example %}
-**Example Response**
-<textarea id="{{ path[0] }}/{{ method[0] }}-response" style="margin: 10px; padding: 5px; height: 250px; overflow: auto; color:#000; border: 1px solid #000; width: 100%;">
-{{ method[1].responses['200'].content['application/json'].example | jsonify }}
-</textarea>
-<script>
-    var example = JSON.parse(document.getElementById("{{ path[0] }}/{{ method[0] }}-response").innerHTML);
-    document.getElementById("{{ path[0] }}/{{ method[0] }}-response").innerHTML = JSON.stringify(example, null, 2);
-</script>
-{% endif %}
-{% if method[1].responses['201'].content['application/json'].example %}
-**Example Response**
-<textarea id="{{ path[0] }}/{{ method[0] }}-response" style="margin: 10px; padding: 5px; height: 250px; overflow: auto; color:#000; border: 1px solid #000; width: 100%;">
-{{ method[1].responses['201'].content['application/json'].example | jsonify }}
-</textarea>
-<script>
-    var example = JSON.parse(document.getElementById("{{ path[0] }}/{{ method[0] }}-response").innerHTML);
-    document.getElementById("{{ path[0] }}/{{ method[0] }}-response").innerHTML = JSON.stringify(example, null, 2);
-</script>
-{% endif %}
+- **Feed URL:** [`{{ feed.feed_url }}`]({{ feed.feed_url }})
+- **Browse:** [{{ feed.url }}]({{ feed.url }})
+- **Docs:** [developer.apis.io/feeds/{{ feed.slug }}/]({{ site.url }}/feeds/{{ feed.slug }}/)
 
 {% endfor %}
-{% endfor %}
 
-<hr>
-{% endfor %}
-<br>
-APIs.io is about making APIs available via search, but it is also designed to demonstrate a high bar for how you can run an API using APIs.json is not just the index, but a rating system. Because of this we are interested in providing as many of the success API platform building blocks as possible.
+---
+
+## Feed Format
+
+All feeds use a compact JSON array format optimized for [MiniSearch](https://lucaong.github.io/minisearch/) client-side search indexing. Field names are abbreviated to keep payload size minimal.
+
+### Common Fields
+
+| Field | Type | Description |
+|---|---|---|
+| `i` | integer | Sequential index (used as MiniSearch document ID) |
+| `type` | string | Resource type: `provider`, `api`, `capability`, `tag`, etc. |
+| `n` | string | Name |
+| `d` | string | Description (truncated to 300 characters) |
+| `t` | array | Tags |
+| `u` | string | Canonical URL on the resource's subdomain |
+
+See the individual feed documentation pages for feed-specific fields.
+
+## Integration Examples
+
+### Vanilla JavaScript
+
+```javascript
+async function loadFeed(feedUrl) {
+  const response = await fetch(feedUrl);
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+}
+
+const providers = await loadFeed('https://providers.apis.io/search-index.json');
+console.log(`Loaded ${providers.length} providers`);
+```
+
+### MiniSearch (client-side full-text search)
+
+```javascript
+import MiniSearch from 'minisearch';
+
+const docs = await fetch('https://apis.apis.io/search-index.json').then(r => r.json());
+
+const index = new MiniSearch({
+  idField: 'i',
+  fields: ['n', 'd'],
+  storeFields: ['n', 'd', 'u', 't']
+});
+
+index.addAll(docs);
+
+const results = index.search('payments REST');
+results.forEach(r => console.log(r.n, r.u));
+```
+
+### Python
+
+```python
+import requests
+
+feeds = {
+    'providers': 'https://providers.apis.io/search-index.json',
+    'apis': 'https://apis.apis.io/search-index.json',
+    'capabilities': 'https://capabilities.apis.io/search-index.json',
+}
+
+for name, url in feeds.items():
+    data = requests.get(url).json()
+    print(f'{name}: {len(data)} items')
+```
+
+## APIs.json
+
+This portal publishes an [apis.json]({{ site.url }}/apis.json) listing all nine feeds as machine-readable API definitions following the [APIs.json specification](https://apisjson.org).
