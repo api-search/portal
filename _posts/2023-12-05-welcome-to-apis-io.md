@@ -2,7 +2,7 @@
 published: true
 layout: post
 title: 'Welcome to APIs.io'
-image: https://developer.apis.io/images/apis-io.jpg
+image: /assets/images/blog/welcome-to-apis-io.png
 author:
     name: kinlane
 tags:

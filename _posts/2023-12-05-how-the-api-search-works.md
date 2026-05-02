@@ -2,7 +2,7 @@
 published: true
 layout: post
 title: 'How the APIs.io Search Works'
-image: https://s3.amazonaws.com/kinlane-productions2/bw-icons/bw-transparency.jpg
+image: /assets/images/blog/how-api-search-works.png
 author:
    name: kinlane
 tags:

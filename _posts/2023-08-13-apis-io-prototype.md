@@ -2,7 +2,7 @@
 published: true
 layout: post
 title: 'An APIs.io Prototype'
-image: https://developer.apis.io/images/diagram-2.jpg
+image: /assets/images/blog/apis-io-prototype.png
 author:
     name: kinlane
 tags:
