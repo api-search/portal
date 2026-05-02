@@ -1,25 +1,24 @@
-specificationVersion: '0.20'
-
 name: APIs.io Developer Portal
 description: Static JSON feeds for the APIs.io network — providers, APIs, capabilities, tags, schemas, AsyncAPI specs, JSON-LD contexts, rules, and vocabularies.
+url: https://developer.apis.io/apis.json
 image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-
+created: "2023-07-26"
+modified: "2026-05-02"
+specificationVersion: "0.20"
 tags:
   - APIs
   - Search Engine
   - Discovery
   - JSON Feeds
-
-created: '2023-07-26'
-modified: '2026-04-30'
-
-url: https://developer.apis.io/apis.json
-
+  - API Catalog
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com
+    url: https://kinlane.com
 apis:
 
   - name: Providers Feed
     description: Static JSON feed of all API providers indexed by APIs.io. Each record includes provider name, description, tags, API count, and capability count.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://developer.apis.io/feeds/providers/
     baseURL: https://providers.apis.io
     tags:
@@ -32,13 +31,9 @@ apis:
         url: https://providers.apis.io/search-index.json
       - type: APICatalog
         url: https://providers.apis.io/.well-known/api-catalog
-    contact:
-      - FN: APIs.io
-        email: info@apis.io
 
   - name: APIs Feed
     description: Static JSON feed of all individual APIs indexed by APIs.io across all providers.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://developer.apis.io/feeds/apis/
     baseURL: https://apis.apis.io
     tags:
@@ -51,13 +46,9 @@ apis:
         url: https://apis.apis.io/search-index.json
       - type: APICatalog
         url: https://apis.apis.io/.well-known/api-catalog
-    contact:
-      - FN: APIs.io
-        email: info@apis.io
 
   - name: Capabilities Feed
     description: Static JSON feed of Naftiko capability specs indexed by APIs.io. Capabilities define business workflows deployable as REST APIs or MCP servers.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://developer.apis.io/feeds/capabilities/
     baseURL: https://capabilities.apis.io
     tags:
@@ -71,13 +62,9 @@ apis:
         url: https://capabilities.apis.io/search-index.json
       - type: APICatalog
         url: https://capabilities.apis.io/.well-known/api-catalog
-    contact:
-      - FN: APIs.io
-        email: info@apis.io
 
   - name: Tags Feed
     description: Static JSON feed of all tags used across APIs.io providers and APIs, with associated resource counts.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://developer.apis.io/feeds/tags/
     baseURL: https://tags.apis.io
     tags:
@@ -90,13 +77,9 @@ apis:
         url: https://tags.apis.io/search-index.json
       - type: APICatalog
         url: https://tags.apis.io/.well-known/api-catalog
-    contact:
-      - FN: APIs.io
-        email: info@apis.io
 
   - name: Schemas Feed
     description: Static JSON feed of JSON Schema definitions extracted from APIs indexed by APIs.io.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://developer.apis.io/feeds/schemas/
     baseURL: https://schemas.apis.io
     tags:
@@ -109,13 +92,9 @@ apis:
         url: https://schemas.apis.io/search-index.json
       - type: APICatalog
         url: https://schemas.apis.io/.well-known/api-catalog
-    contact:
-      - FN: APIs.io
-        email: info@apis.io
 
   - name: AsyncAPI Feed
     description: Static JSON feed of AsyncAPI specifications indexed across providers — event-driven APIs, message channels, and async operations.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://developer.apis.io/feeds/asyncapi/
     baseURL: https://asyncapi.apis.io
     tags:
@@ -129,13 +108,9 @@ apis:
         url: https://asyncapi.apis.io/search-index.json
       - type: APICatalog
         url: https://asyncapi.apis.io/.well-known/api-catalog
-    contact:
-      - FN: APIs.io
-        email: info@apis.io
 
   - name: JSON-LD Feed
     description: Static JSON feed of JSON-LD context documents and linked data definitions published by API providers.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://developer.apis.io/feeds/json-ld/
     baseURL: https://json-ld.apis.io
     tags:
@@ -148,13 +123,9 @@ apis:
         url: https://json-ld.apis.io/search-index.json
       - type: APICatalog
         url: https://json-ld.apis.io/.well-known/api-catalog
-    contact:
-      - FN: APIs.io
-        email: info@apis.io
 
   - name: Rules Feed
     description: Static JSON feed of Spectral ruleset files for OpenAPI and AsyncAPI linting collected from API providers.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://developer.apis.io/feeds/rules/
     baseURL: https://rules.apis.io
     tags:
@@ -168,13 +139,9 @@ apis:
         url: https://rules.apis.io/search-index.json
       - type: APICatalog
         url: https://rules.apis.io/.well-known/api-catalog
-    contact:
-      - FN: APIs.io
-        email: info@apis.io
 
   - name: Vocabularies Feed
     description: Static JSON feed of controlled vocabularies and taxonomy definitions used by API providers for classification and semantic consistency.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://developer.apis.io/feeds/vocabularies/
     baseURL: https://vocabularies.apis.io
     tags:
@@ -187,49 +154,21 @@ apis:
         url: https://vocabularies.apis.io/search-index.json
       - type: APICatalog
         url: https://vocabularies.apis.io/.well-known/api-catalog
-    contact:
-      - FN: APIs.io
-        email: info@apis.io
 
 common:
-
   - type: Website
     url: https://developer.apis.io
-
   - type: Portal
     url: https://developer.apis.io
-
-  - type: RoadMap
-    url: https://developer.apis.io/road-map/
-
-  - type: ChangeLog
-    url: https://developer.apis.io/change-log/
-
   - type: Blog
     url: https://developer.apis.io/blog/
-
   - type: BlogFeed
     url: https://developer.apis.io/atom.xml
-
-  - type: Forums
-    url: https://github.com/orgs/api-search/discussions
-
   - type: Support
     url: https://developer.apis.io/support/
-
-  - type: Issues
-    url: https://github.com/api-search/developer-portal/issues
-
   - type: TermsOfService
     url: https://developer.apis.io/terms-of-service/
-
   - type: PrivacyPolicy
     url: https://developer.apis.io/privacy-policy/
-
   - type: GitHubRepository
     url: https://github.com/api-search/developer-portal
-
-maintainers:
-  - FN: Kin Lane
-    email: info@apievangelist.com
-    url: https://kinlane.com
