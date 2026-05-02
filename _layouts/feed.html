@@ -26,66 +26,69 @@ layout: default
 
 <hr>
 
-## Feed Endpoint
+<h2>Feed Endpoint</h2>
 
 <div class="p-3 bg-light rounded mb-4">
   <strong>GET</strong> <code>{{ feed.feed_url }}</code>
 </div>
 
-No authentication required. Returns a JSON array. CORS headers are set on all feeds.
+<p>No authentication required. Returns a JSON array. CORS headers are set on all feeds.</p>
 
 {% if feed.catalog_url %}
-**API Catalog:** <a href="{{ feed.catalog_url }}" target="_blank" rel="noopener"><code>{{ feed.catalog_url }}</code></a> (RFC 9727)
+<p><strong>API Catalog:</strong> <a href="{{ feed.catalog_url }}" target="_blank" rel="noopener"><code>{{ feed.catalog_url }}</code></a> (RFC 9727)</p>
 {% endif %}
 
-## Response Schema
+<h2>Response Schema</h2>
 
-Each item in the array has these fields:
+<p>Each item in the array has these fields:</p>
 
-| Field | Type | Description |
-|---|---|---|
-{% for field in feed.fields %}| `{{ field.name }}` | {{ field.type }} | {{ field.description }} |
-{% endfor %}
+<table class="table table-bordered table-sm">
+  <thead class="table-light">
+    <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    {% for field in feed.fields %}
+    <tr>
+      <td><code>{{ field.name }}</code></td>
+      <td>{{ field.type }}</td>
+      <td>{{ field.description }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
-## Example Request
+<h2>Example Request</h2>
 
-```bash
-curl -s {{ feed.feed_url }} | head -c 500
-```
+<pre><code class="language-bash">curl -s {{ feed.feed_url }} | head -c 500</code></pre>
 
-## Example Response
+<h2>Example Response</h2>
 
-```json
-[
+<pre><code class="language-json">[
   {
     "i": 0,
-    "type": "{{ feed.slug | remove: 's' }}",
-    "n": "Example {{ feed.name | remove: 's' }} Name",
+    "type": "{{ feed.slug }}",
+    "n": "Example {{ feed.name }} Name",
     "d": "A short description of this resource...",
     "t": ["Tag1", "Tag2"],
     "u": "{{ feed.url }}example-slug/"
   },
   ...
-]
-```
+]</code></pre>
 
-## Usage
+<h2>Usage</h2>
 
-### JavaScript / Browser
+<h3>JavaScript / Browser</h3>
 
-```javascript
-const response = await fetch('{{ feed.feed_url }}');
+<pre><code class="language-javascript">const response = await fetch('{{ feed.feed_url }}');
 const items = await response.json();
 
-items.forEach(item => {
+items.forEach(item =&gt; {
   console.log(item.n, item.u);
-});
-```
+});</code></pre>
 
-### MiniSearch Integration
+<h3>MiniSearch Integration</h3>
 
-```javascript
-import MiniSearch from 'minisearch';
+<pre><code class="language-javascript">import MiniSearch from 'minisearch';
 
 const response = await fetch('{{ feed.feed_url }}');
 const docs = await response.json();
@@ -98,21 +101,18 @@ const index = new MiniSearch({
 
 index.addAll(docs);
 
-const results = index.search('your query');
-```
+const results = index.search('your query');</code></pre>
 
-### Python
+<h3>Python</h3>
 
-```python
-import requests
+<pre><code class="language-python">import requests
 
 response = requests.get('{{ feed.feed_url }}')
 items = response.json()
 
 for item in items:
-    print(item['n'], item['u'])
-```
+    print(item['n'], item['u'])</code></pre>
 
----
+<hr>
 
-**Browse the full {{ feed.name }} catalog at [{{ feed.url }}]({{ feed.url }}).**
+<p><strong>Browse the full {{ feed.name }} catalog at <a href="{{ feed.url }}">{{ feed.url }}</a>.</strong></p>
